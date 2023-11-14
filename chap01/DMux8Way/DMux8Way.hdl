@@ -1,0 +1,21 @@
+/*
+000 a
+001 b
+010 c
+011 d
+100 e
+101 f
+110 g
+111 h
+*/
+
+CHIP DMux8Way{
+    IN in, sel[3];
+    OUT a, b, c, d, e, f, g, h;
+    PARTS:
+    DMux4Way(in=in, sel=sel[0..1], a=i, b=j, c=k, d=l);
+    DMux(in=i, sel=sel[2], a=a, b=e);
+    DMux(in=j, sel=sel[2], a=b, b=f);
+    DMux(in=k, sel=sel[2], a=c, b=g);
+    DMux(in=l, sel=sel[2], a=d, b=h);
+}

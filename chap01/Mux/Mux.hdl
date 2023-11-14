@@ -1,0 +1,22 @@
+// NAND 4個
+
+/*
+selが0のときa, 1のときbを選ぶ
+*/
+
+/*
+MUX
+= (a AND NOT sel) OR (b AND sel)
+= NOT( NOT(a AND NOT sel) AND NOT(b AND sel) )
+= (a NAND NOT sel) NAND (b NAND sel)
+*/
+
+CHIP Mux{
+    IN a, b, sel;
+    OUT out;
+    PARTS:
+    Not(in=sel, out=c1);
+    Nand(a=a, b=c1, out=c2);
+    Nand(a=b, b=sel, out=c3);
+    Nand(a=c2, b=c3, out=out);
+}

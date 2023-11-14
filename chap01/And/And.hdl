@@ -1,0 +1,15 @@
+// NAND 2個
+
+
+/*
+a AND b
+= NOT (a NAND b)
+*/
+
+CHIP And{
+    IN a, b;
+    OUT out;
+    PARTS:
+    Nand(a=a, b=b, out=c);
+    Not(in=c, out=out);
+}

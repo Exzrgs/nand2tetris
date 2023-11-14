@@ -1,0 +1,28 @@
+// NAND 5個
+
+/*
+|   a   |   b   |  out  |
+|   0   |   0   |   0   |
+|   0   |   1   |   1   |
+|   1   |   0   |   1   |
+|   1   |   1   |   0   |
+*/
+
+/*
+XOR
+= (NOT a AND b) OR (a AND NOT b)
+= NOT(NOT( (NOT a AND b) OR (a AND NOT b) ))
+= NOT( (NOT a NAND b) AND (a NAND NOT b) )
+= (NOT a NAND b) NAND (a NAND NOT b)
+*/
+
+CHIP Xor{
+    IN a, b;
+    OUT out;
+    PARTS:
+    Not(in=a, out=c1);
+    Not(in=b, out=c2);
+    Nand(a=c1, b=b, out=c3);
+    Nand(a=a, b=c2, out=c4);
+    Nand(a=c3, b=c4, out=out);
+}
