@@ -9,10 +9,7 @@ CHIP DMux4Way{
     IN in, sel[2];
     OUT a, b, c, d;
     PARTS:
-    DMux(in=in, sel=sel[0], a=e, b=f); // eがaかc, fがbかd
-    DMux(in=in, sel=sel[1], a=g, b=h); // gがaかb, hがcかd
-    And(a=e, b=g, out=a);
-    And(a=f, b=g, out=b);
-    And(a=e, b=h, out=c);
-    And(a=f, b=h, out=d);
+    DMux(in=in, sel=sel[0], a=e, b=f);
+    DMux(in=e, sel=sel[1], a=a, b=c);
+    DMux(in=f, sel=sel[1], a=b, b=d);
 }
