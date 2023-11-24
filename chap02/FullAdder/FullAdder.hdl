@@ -1,0 +1,21 @@
+/*
+a b c cr s
+0 0 0 0  0
+0 0 1 0  1
+0 1 0 0  1
+0 1 1 1  0
+1 0 0 0  1
+1 0 1 1  0
+1 1 1 1  1
+*/
+
+CHIP FullAdder{
+    IN a, b, c;
+    OUT sum, carry;
+    PARTS:
+    Xor(a=a, b=b, out=d);
+    And(a=a, b=b, out=e);
+    Xor(a=d, b=c, out=sum);
+    And(a=d, b=c, out=f);
+    Or(a=e, b=f, out=carry);
+}
