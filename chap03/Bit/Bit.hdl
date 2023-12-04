@@ -1,0 +1,21 @@
+/*
+順序回路は値を保持する
+befOut(t-1)
+in(t)
+load(t)
+o1(t)
+
+out(t)
+befOut(t)
+
+outは入力に使えないから、befOutを入力用に用意してる
+befOutは次のクロックサイクルまで値を保持する
+*/
+
+CHIP Bit {
+    IN in, load;
+    OUT out;
+    PARTS:
+    Mux(a=befOut, b=in, sel=load, out=o1);
+    DFF(in=o1, out=out, out=befOut);
+}

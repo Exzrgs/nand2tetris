@@ -1,0 +1,31 @@
+/*
+RAM8(in=in, load=load, address=address[0..3], out=o1);
+RAM8(in=in, load=load, address=address[3..6], out=o2);
+
+みたいにやっちゃうとうまくいかなくて、
+addressの部分が6ビット用に作られてないから
+
+RAM8を8個うまく並べたい
+書き換えるやつを特定していきたい
+
+巧妙すぎる
+レイヤーが二つあって、一つ目でどのRAM8を使うか、二つ目でRAM8の中のどのレジスタを使うかを決める
+*/
+
+CHIP RAM64 {
+    IN in[16], address[6], load;
+    OUT out[16];
+    PARTS:
+    DMux8Way(in=load, sel=address[0..2], a=l1, b=l2, c=l3, d=l4, e=l5, f=l6, g=l7, h=l8);
+
+    RAM8(in=in, load=l1, address=address[3..5], out=o1);
+    RAM8(in=in, load=l2, address=address[3..5], out=o2);
+    RAM8(in=in, load=l3, address=address[3..5], out=o3);
+    RAM8(in=in, load=l4, address=address[3..5], out=o4);
+    RAM8(in=in, load=l5, address=address[3..5], out=o5);
+    RAM8(in=in, load=l6, address=address[3..5], out=o6);
+    RAM8(in=in, load=l7, address=address[3..5], out=o7);
+    RAM8(in=in, load=l8, address=address[3..5], out=o8);
+
+    Mux8Way16(a=o1, b=o2, c=o3, d=o4, e=o5, f=o6, g=o7, h=o8, sel=address[0..2], out=out);
+}
