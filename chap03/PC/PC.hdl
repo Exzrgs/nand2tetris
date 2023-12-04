@@ -1,0 +1,9 @@
+CHIP PC {
+    IN in[16], inc, load, reset;
+    OUT out[16];
+    PARTS:
+    Register(in=false, load=reset, out=out);
+
+    Inc16(in=befOut, out=o1);
+    Register(in=o1, load=inc, out=out);
+}
