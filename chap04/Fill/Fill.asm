@@ -8,7 +8,7 @@
         @SCREEN
         D=M
         @LOOP
-        D;JLT
+        D;JNE
 
         @i
         M=0
@@ -22,12 +22,12 @@
             @i
             M=M+1
 
-            @8000
+            @8192 //256*32
             D=A
             @i
             D=D-M
             @LOOP2
-            D;JGT
+            D;JNE
         
         @LOOP
         0;JMP
@@ -50,11 +50,12 @@
             @i
             M=M+1
 
-            @8000
+            @8192
             D=A
             @i
             D=D-M
             @LOOP3
-            D;JGT
+            D;JNE
+        
         @LOOP
         0;JMP
