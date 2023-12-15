@@ -5,6 +5,11 @@
     D;JEQ
 
     (BLACK)
+        @SCREEN
+        D=M
+        @LOOP
+        D;JLT
+
         @i
         M=0
         (LOOP2)
@@ -28,6 +33,11 @@
         0;JMP
 
     (WHITE)
+        @SCREEN
+        D=M
+        @LOOP
+        D;JEQ
+
         @i
         M=0
         (LOOP3)
