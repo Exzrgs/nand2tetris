@@ -1,0 +1,60 @@
+/*
+命令
+i xx a cccccc ddd jjj
+
+i: 0ならA命令、1ならC命令
+C命令
+    a,c: comp領域
+    d: dest領域
+    j: jump領域
+    xx: 使用しない
+A命令:
+    15ビットは定数値
+
+compのところは、ALUの仕様と同じ。
+このALUの仕様も本当なら自分で設計しないといけない。
+どういう引数を組み合わせてこの仕様を実現するか。
+
+destは、
+    d1が1: Aレジスタに格納
+    d2が1: Dレジスタに格納
+    d3が1: Memory[A]に格納
+
+jump
+    j1が1: 小さければよい
+    j2が1: イコールならよい
+    j3が1: 大きければよい
+*/
+
+CHIP CPU {
+    IN inM[16], instruction[16], reset;
+    OUT outM[16], writeM, addressM[15], pc[15];
+    PARTS:
+    // ALU
+    Mux16(a=A, b=inM, sel=instruction[12], out=aluY);
+    ALU(x=D, y=aluY, zx=instruction[11], nx=instruction[10], zy=instruction[9], ny=instruction[8], f=instruction[7], no=instruction[6], out=aluRes, out=outM, zr=zr, ng=ng);
+
+    // Aレジスタ
+    Mux(a=true, b=instruction[5], sel=instruction[15], out=shouldLoadA);
+    Mux16(a[0..14]=instruction[0..14], a[15]=false, b=aluRes, sel=instruction[15], out=inA);
+    ARegister(in=inA, load=shouldLoadA, out=A, out[0..14]=A0to14, out[0..14]=addressM);
+
+    // Dレジスタ
+    And(a=instruction[15], b=instruction[4], out=shouldLoadD);
+    DRegister(in=aluRes, load=shouldLoadD, out=D);
+
+    And(a=instruction[15], b=instruction[3], out=writeM);
+
+    // PC
+    And(a=instruction[15], b=instruction[2], out=isLessJump);
+    And(a=ng, b=isLessJump, out=lessOK);
+    And(a=instruction[15], b=instruction[1], out=isZeroJump);
+    And(a=zr, b=isZeroJump, out=zeroOK);
+    Or(a=ng, b=zr, out=o4);
+    Not(in=o4, out=more);
+    And(a=instruction[15], b=instruction[0], out=isMoreJump);
+    And(a=more, b=isMoreJump, out=moreOK);
+    Or(a=lessOK, b=zeroOK, out=o5);
+    Or(a=o5, b=moreOK, out=shouldJump);
+    PC(in=A, load=shouldJump, inc=true, reset=reset, out[0..14]=pc);
+}
