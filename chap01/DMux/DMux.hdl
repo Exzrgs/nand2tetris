@@ -1,0 +1,21 @@
+// NAND 5個
+
+/*
+selが0ならaに流す
+*/
+
+/*
+DMux
+a = (NOT sel AND in)
+
+b = (sel AND in)
+*/
+
+CHIP DMux{
+    IN in, sel;
+    OUT a, b;
+    PARTS:
+    Not(in=sel, out=c1);
+    And(a=c1, b=in, out=a);
+    And(a=sel, b=in, out=b);
+}

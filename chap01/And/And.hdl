@@ -1,3 +1,6 @@
+// NAND 2個
+
+
 /*
 a AND b
 = NOT (a NAND b)

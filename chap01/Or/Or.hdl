@@ -1,3 +1,5 @@
+// NAND 3個
+
 /*
 OR
 0 0 | 0
@@ -14,6 +16,7 @@ OR
 a OR b
 = NOT (NOT (a OR b))
 = NOT ((NOT a) AND (NOT b))
+= (NOT a) NAND (NOT b)
 */
 
 CHIP Or{
@@ -22,6 +25,5 @@ CHIP Or{
     PARTS:
     Not(in=a, out=c1);
     Not(in=b, out=c2);
-    And(a=c1, b=c2, out=c3);
-    Not(in=c3, out=out);
+    Nand(a=c1, b=c2, out=out);
 }
