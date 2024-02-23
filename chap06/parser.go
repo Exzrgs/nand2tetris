@@ -11,7 +11,8 @@ const (
 	A_COMMAND       = 0
 	C_COMMAND       = 1
 	SYMBOL          = 2
-	INVALID_COMMAND = 3
+	NO_COMMAND      = 3
+	INVALID_COMMAND = 4
 
 	ASSIGN     = "1"
 	NOT_ASSIGN = "0"
@@ -88,6 +89,9 @@ func getCommandType(command string) int {
 	}
 	if symbol.MatchString(command) {
 		return SYMBOL
+	}
+	if command == "" {
+		return NO_COMMAND
 	}
 	return INVALID_COMMAND
 }

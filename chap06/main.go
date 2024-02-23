@@ -61,6 +61,9 @@ func main() {
 			symbolAddress[symbol] = len(binaryTextList)
 			continue
 
+		case NO_COMMAND:
+			continue
+
 		case INVALID_COMMAND:
 			fmt.Printf("invalid command: %s\n", command)
 			os.Exit(1)
