@@ -7,7 +7,31 @@ import (
 	"path/filepath"
 )
 
-var symbolAddress map[string]int
+var symbolAddress map[string]int = map[string]int{
+	"SP":     0,
+	"LCL":    1,
+	"ARG":    2,
+	"THIS":   3,
+	"THAT":   4,
+	"R0":     0,
+	"R1":     1,
+	"R2":     2,
+	"R3":     3,
+	"R4":     4,
+	"R5":     5,
+	"R6":     6,
+	"R7":     7,
+	"R8":     8,
+	"R9":     9,
+	"R10":    10,
+	"R11":    11,
+	"R12":    12,
+	"R13":    13,
+	"R14":    14,
+	"R15":    15,
+	"SCREEN": 16384,
+	"KBD":    24576,
+}
 
 func main() {
 	args := os.Args
@@ -31,14 +55,34 @@ func main() {
 	}
 	defer file.Close()
 
-	binaryTextList := make([]string, 0)
-	symbolAddress = make(map[string]int, 0)
+	commandList := make([]string, 0)
 
 	scanner := bufio.NewScanner(file)
 	for scanner.Scan() {
 		text := scanner.Text()
 		command := formatText(text)
 
+		commandType := getCommandType(command)
+		switch commandType {
+		case SYMBOL:
+			symbol := getLabelSymbol(command)
+			symbolAddress[symbol] = len(commandList)
+			continue
+
+		case NO_COMMAND:
+			continue
+
+		case INVALID_COMMAND:
+			fmt.Printf("invalid command: %s\n", command)
+			os.Exit(1)
+		}
+
+		commandList = append(commandList, command)
+	}
+
+	binaryTextList := make([]string, 0)
+
+	for _, command := range commandList {
 		commandType := getCommandType(command)
 		var binaryText string
 		switch commandType {
@@ -55,18 +99,6 @@ func main() {
 				fmt.Println(err)
 				os.Exit(1)
 			}
-
-		case SYMBOL:
-			symbol := getLabelSymbol(command)
-			symbolAddress[symbol] = len(binaryTextList)
-			continue
-
-		case NO_COMMAND:
-			continue
-
-		case INVALID_COMMAND:
-			fmt.Printf("invalid command: %s\n", command)
-			os.Exit(1)
 		}
 
 		binaryTextList = append(binaryTextList, binaryText)

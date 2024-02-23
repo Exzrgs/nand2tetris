@@ -114,6 +114,40 @@ func TestGetLabelSymbol(t *testing.T) {
 	}
 }
 
+func TestGetSymbolAddress(t *testing.T) {
+	tests := []struct {
+		name     string
+		symbol   string
+		expected int
+	}{
+		{
+			name:     "basic",
+			symbol:   "LOOP",
+			expected: 16,
+		},
+		{
+			name:     "2nd symbol",
+			symbol:   "HOGE",
+			expected: 17,
+		},
+		{
+			name:     "symbol exist",
+			symbol:   "LOOP",
+			expected: 16,
+		},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			address := getSymbolAddress(tt.symbol)
+
+			if address != tt.expected {
+				t.Errorf("expected %d but got %d\n", tt.expected, address)
+			}
+		})
+	}
+}
+
 func TestGetValue_OK(t *testing.T) {
 	tests := []struct {
 		name     string

@@ -63,7 +63,7 @@ const (
 )
 
 var (
-	nowSymbolAddress = 10000
+	nowSymbolAddress = 16
 )
 
 func formatText(text string) string {
