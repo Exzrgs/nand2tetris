@@ -8,11 +8,11 @@ import (
 )
 
 const (
-	A_COMMAND       = 0
-	C_COMMAND       = 1
-	SYMBOL          = 2
-	NO_COMMAND      = 3
-	INVALID_COMMAND = 4
+	A_COMMAND       = iota
+	C_COMMAND       = iota
+	SYMBOL          = iota
+	NO_COMMAND      = iota
+	INVALID_COMMAND = iota
 
 	ASSIGN     = "1"
 	NOT_ASSIGN = "0"
